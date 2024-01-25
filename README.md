@@ -17,7 +17,7 @@ The program analyzes a DNA FASTA file and generates the following output:
 The program finishes quickly - it takes about 1 second to run for a 100 Mbase assembly.
 
 # Installation
-There is a generic Makefile, so it can be installed via:
+There is a generic Makefile, so it can be compiled with the following commands:
 
     git clone https://github.com/stephen-cohen/qqual
     cd qqual
