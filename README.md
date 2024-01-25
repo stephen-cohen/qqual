@@ -39,6 +39,11 @@ The output format is tab separated values and can be redirected to a file via ei
 
 There is minimal error checking, and it may fail or produce unexpected results. If it fails, post an issue with as many details as possible and I can help you troubleshoot. 
 
+# citing
+Just cite this repo. You can use text such as:
+
+> Assembly quality was assessed with qqual (available at: https://github.com/stephen-cohen/qqual).
+
 # license
 MIT License
 
