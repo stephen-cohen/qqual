@@ -1,2 +1,2 @@
 default:
-  gcc -o qqual *.c
+	gcc -o qqual *.c
