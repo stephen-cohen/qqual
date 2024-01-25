@@ -14,7 +14,7 @@ The program generates output including:
 8. GC (%)
 9. Number of Ns
 
-And it should be quick - it takes about 1 second to run on my computer.
+And it should be quick - it takes about 1 second to run for a 100 Mbase assembly on my computer.
 
 # compiling
 I have included a generic Makefile so you should be able to install via:
@@ -29,6 +29,13 @@ The resulting binary will be `qqual` which I recommend putting into your executa
 The program takes a single argument - a FASTA file.
 
     qqual file.fasta
+
+The program should be quick
+
+The output format is tab separated values and can be redirected to a file via either of these methods (the second method will both output a file and display results in the console):
+
+    qqual file.fasta > output.tsv
+    qqual file.fasta | tee output.tsv
 
 There is minimal error checking, and it may fail or produce unexpected results. If it fails, post an issue with as many details as possible and I can help you troubleshoot. 
 
