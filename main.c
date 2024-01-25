@@ -147,7 +147,7 @@ calc_nucleotides(struct output_info *output)
 			c += 1;
 		}
 	}
-	output->GC_p = (double) (output->GC_count) / (double) (output->GC_count + output->AT_count + output->N_count);
+	output->GC_p = (double) (output->GC_count) / (double) (output->GC_count + output->AT_count);
 	output->GC_p *= 100;
 }
 
