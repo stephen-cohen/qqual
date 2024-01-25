@@ -1,8 +1,8 @@
 # qqual
 Generate quick DNA sequence quality statistics with a given FASTA file
 
-# output
-The program generates output including:
+# Output
+The program analyzes a DNA FASTA file and generates the following output:
 
 1. sequence length
 2. sequence length (only contigs >10 kb)
@@ -14,18 +14,20 @@ The program generates output including:
 8. GC (%)
 9. Number of Ns
 
-And it should be quick - it takes about 1 second to run for a 100 Mbase assembly on my computer.
+The program finishes quickly - it takes about 1 second to run for a 100 Mbase assembly.
 
-# compiling
-I have included a generic Makefile so you should be able to install via:
+# Installation
+There is a generic Makefile, so it can be installed via:
 
     git clone https://github.com/stephen-cohen/qqual
     cd qqual
     make
 
-The resulting binary will be `qqual` which I recommend putting into your executable path (e.g. `~/bin`)
+The resulting binary will be `qqual` which may be placed into an executable path (e.g. `~/bin` if it exists)
 
-# running
+    mv qqual ~/bin
+
+# Running
 The program takes a single argument - a FASTA file.
 
     qqual file.fasta
@@ -35,14 +37,14 @@ The output format is tab separated values and can be redirected to a file via ei
     qqual file.fasta > output.tsv
     qqual file.fasta | tee output.tsv
 
-There is minimal error checking, and it may fail or produce unexpected results. If it fails, post an issue with as many details as possible and I can help you troubleshoot. 
+There is minimal error checking, and it may fail or produce unexpected results. If it fails, post an issue with as many details as possible. 
 
-# citing
-Just cite this repo. You can use text such as:
+# Citing
+If you use this tool, please kindly cite this repo. There is no version number but you can include the date of the most current commit if you want. You can use text such as the following:
 
-> Assembly quality was assessed with qqual (available at: https://github.com/stephen-cohen/qqual).
+> Assembly quality was assessed with qqual v2024-01-25 (available at: https://github.com/stephen-cohen/qqual).
 
-# license
+# License
 MIT License
 
 Copyright (c) 2024 Stephen P. Cohen
