@@ -30,8 +30,6 @@ The program takes a single argument - a FASTA file.
 
     qqual file.fasta
 
-The program should be quick
-
 The output format is tab separated values and can be redirected to a file via either of these methods (the second method will both output a file and display results in the console):
 
     qqual file.fasta > output.tsv
