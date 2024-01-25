@@ -40,7 +40,7 @@ The output format is tab separated values and can be redirected to a file via ei
 There is minimal error checking, and it may fail or produce unexpected results. If it fails, post an issue with as many details as possible. 
 
 # Citing
-If you use this tool, please kindly cite this repo in-text. There is no version number but you can include the date of the most current commit if you want. You can cite this repo in-text with wording such as:
+If you use this tool for published work, please kindly cite this repo in-text. There is no version number but you can include the date of the most current commit if you want. You can cite this repo in-text with wording such as:
 
 > Assembly quality was assessed with qqual v2024-01-25 (available at: https://github.com/stephen-cohen/qqual).
 
