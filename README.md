@@ -37,7 +37,7 @@ The output format is tab separated values and can be redirected to a file via ei
     qqual file.fasta > output.tsv
     qqual file.fasta | tee output.tsv
 
-There is minimal error checking, and it may fail or produce unexpected results. If it fails, post an issue with as many details as possible.
+There is very minimal error checking, and it may fail or produce unexpected results. If it fails, post an issue with as many details as possible. Only provide a FASTA file as input or you may experience unknown issues.
 
 When calculating GC% and quantifying the number of Ns, any character not contained in the characters ACGT (or acgt) is considered an N. GC% is calculated as (num GC * 100) / num AT.
 
