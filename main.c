@@ -2,10 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "loadfasta.h"
 
 struct output_info {
-	struct fasta_file *fa;
 	char *f_name;
 	uint64_t s_len;
 	uint64_t s_len_10k;
@@ -19,40 +17,44 @@ struct output_info {
 	double GC_p;
 	uint64_t N50;
 	uint64_t L50;
-	int outp;
 };
 
-void	usage(char *argv);
-void	count_seq(struct output_info *output);
-void	calc_N50_L50(struct output_info *output);
-int	qsort_cmpfunc (const void * a, const void * b);
-void	calc_nucleotides(struct output_info *output);
-void	output_results(struct output_info *output);
-void	free_output(struct output_info *output);
+void			usage(char *argv);
+void			error_parse(int err);
+void			calc_N50_L50(struct output_info *output);
+int			qsort_cmpfunc (const void * a, const void * b);
+void			calc_nucleotides(struct output_info *output);
+void			output_results(struct output_info *output);
+struct output_info *	init_info(char *f_name);
+void			kill_info(struct output_info *info);
+int			fasta_count(struct output_info *info);
+
+enum STATUS { ERR_MEM, ERR_FILE, ERR_FASTA_HEADER, ERR_UNK_CHAR, STATUS_COMPLETE };
 
 int
 main(int argc, char *argv[])
 {
-	struct output_info output;
+	int err;
+	struct output_info *info;
 
-	/* Make sure there the number of arguments is correct. */
+	/* Make sure there the number of arguments is correct */
 	if (argc != 2) usage(argv[0]);
-
-	/* Load the fasta file. */
-	output.f_name = argv[1];
-	fprintf(stderr, "# Loading file %s\n", output.f_name);
-	output.fa = load_fasta(output.f_name);
-	if (output.fa == NULL) usage(argv[0]);
-	fprintf(stderr, "# Counting sequences\n");
-	/* Count total sequence size and lengths */
-	count_seq(&output);
+	/* Allocate memory for structure */
+	info = init_info(argv[1]);
+	/* Load the sequence information from a FASTA file */
+	fprintf(stderr, "# Loading file %s\n", info->f_name);
+	err = fasta_count(info);
+	if (err != STATUS_COMPLETE) {
+		error_parse(err);
+		exit(1);
+	}
 	/* Calculate N50 L50 GC% and N% */
 	fprintf(stderr, "# Calculating values\n");
-	calc_N50_L50(&output);
-	calc_nucleotides(&output);
+	calc_N50_L50(info);
+	calc_nucleotides(info);
 	/* Output results and free */
-	output_results(&output);
-	free_output(&output);
+	output_results(info);
+	kill_info(info);
 	fprintf(stderr, "# Finished\n");
 	return 0;
 }
@@ -66,27 +68,21 @@ usage(char *argv)
 }
 
 void
-count_seq(struct output_info *output)
+error_parse(int err)
 {
-	int i;
-
-	/* We already know the number of contigs */
-	output->c_num = output->fa->n_contigs;
-	output->c_len = calloc(output->c_num, sizeof(*output->c_len));
-	/* We don't know this stuff yet */
-	output->s_len = 0;
-	output->s_len_10k = 0;
-	output->c_num_10k = 0;
-	output->largest_c = 0;
-	/* Let's figure it out */
-	for (i = 0; i < output->c_num; i += 1) {
-		*(output->c_len + i) = strlen(*(output->fa->seq + i));
-		output->s_len += *(output->c_len + i);
-		if (*(output->c_len + i) > 10000) {
-			output->s_len_10k += *(output->c_len + i);
-			output->c_num_10k += 1;
-		}
-		if (*(output->c_len + i) > output->largest_c) output->largest_c = *(output->c_len + i);
+	switch(err) {
+		case ERR_MEM:
+			printf("# ERROR: Could not allocate memory\n");
+			break;
+		case ERR_FILE:
+			printf("# ERROR: Could not open file\n");
+			break;
+		case ERR_FASTA_HEADER:
+			printf("# ERROR: File did not contain expected > in a sequence header line\n");
+			break;
+		case ERR_UNK_CHAR:
+			printf("# ERROR: Unknown character in a sequence line\n");
+			break;
 	}
 }
 
@@ -120,33 +116,6 @@ qsort_cmpfunc(const void * a, const void * b)
 void
 calc_nucleotides(struct output_info *output)
 {
-	int i;
-	char *c;
-
-	output->GC_count = output->AT_count = output->N_count = 0;
-	for (i = 0; i < output->c_num; i += 1) {
-		c = *(output->fa->seq + i);
-		while (*c != '\0') {
-			switch(*c) {
-				case 'a':
-				case 'A':
-				case 't':
-				case 'T':
-					output->AT_count += 1;
-					break;
-				case 'c':
-				case 'C':
-				case 'g':
-				case 'G':
-					output->GC_count += 1;
-					break;
-				default:
-					output->N_count += 1;
-					break;
-			}
-			c += 1;
-		}
-	}
 	output->GC_p = (double) (output->GC_count) / (double) (output->GC_count + output->AT_count);
 	output->GC_p *= 100;
 }
@@ -166,8 +135,99 @@ output_results(struct output_info *output)
 	printf("Number of Ns\t%ld\n", output->N_count);
 }
 
-void
-free_output(struct output_info *output)
+struct output_info *
+init_info(char *f_name)
 {
-	free(output->c_len);
+	struct output_info *info;
+	info = malloc(sizeof(*info));
+	info->f_name = f_name;
+	info->s_len = 0;
+	info->s_len_10k = 0;
+	info->c_num = 0;
+	info->c_num_10k = 0;
+	info->c_len = NULL;
+	info->largest_c = 0;
+	info->AT_count = 0;
+	info->GC_count = 0;
+	info->N_count = 0;
+	return info;
+}
+
+void
+kill_info(struct output_info *info)
+{
+	if (info->c_len != NULL) free(info->c_len);
+	free(info);
+}
+
+int
+fasta_count(struct output_info *info)
+{
+	char c;
+	int break_loop;
+	int max_num_records;
+	uint64_t cur_seq_len;
+	FILE *f;
+
+	/* Try to open the file */
+	f = fopen(info->f_name, "r");
+	if (f == NULL) return ERR_FILE;
+	/* Allocate memory for sequence lengths */
+	max_num_records = 1000;
+	info->c_len = malloc(sizeof(uint64_t) * max_num_records);
+	if (info->c_len == NULL) return ERR_MEM;
+	while (1) {
+		/* Make sure first character is a >, then scan to end of line */
+		c = fgetc(f);
+		if (c != '>') return ERR_FASTA_HEADER;
+		while ((c = fgetc(f)) != '\n');
+		/* Do we need to reallocate memory? */
+		if (info->c_num > (max_num_records - 1)) {
+			max_num_records += 1000;
+			info->c_len = realloc(info->c_len, sizeof(uint64_t) * max_num_records);
+			if (info->c_len == NULL) return ERR_MEM;
+		}
+		/* Generate stats for current sequence */
+		cur_seq_len = 0;
+		break_loop = 0;
+		while (break_loop == 0) {
+			c = fgetc(f);
+			/* Ignore newlines */
+			if (c == '\r') continue;
+			/* Count nucleotides */
+			if (c == 'A' || c == 'a' || c == 'T' || c == 't') {
+				info->AT_count += 1;
+				cur_seq_len += 1;
+			} else if (c == 'C' || c == 'c' || c == 'G' || c == 'g') {
+				info->GC_count +=1;
+				cur_seq_len += 1;
+			} else if (c == 'N' || c == 'n') {
+				info->N_count += 1;
+				cur_seq_len += 1;
+			/* See if you need to break out of this loop */
+			} else if (c == '\n') {
+				c = fgetc(f);
+				fseek(f, -1, SEEK_CUR);
+				if (c == '>' || c == EOF) {
+					break_loop = 1;
+				}
+			/* Unrecognized character in file */
+			} else {
+				return ERR_UNK_CHAR;
+			}
+		}
+		/* Add sequence length to information */
+		info->c_len[info->c_num] = cur_seq_len;
+		info->s_len += cur_seq_len;
+		info->c_num += 1;
+		if (cur_seq_len > info->largest_c) info->largest_c = cur_seq_len;
+		if (cur_seq_len > 10000) {
+			info->s_len_10k += cur_seq_len;
+			info->c_num_10k += 1;
+		}
+		/* If it's the end of file, exit */
+		if (c == EOF) {
+			return STATUS_COMPLETE;
+		}
+	}
 }
