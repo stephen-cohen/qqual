@@ -37,14 +37,14 @@ The output format is tab separated values and can be redirected to a file via ei
     qqual file.fasta > output.tsv
     qqual file.fasta | tee output.tsv
 
-There is very minimal error checking, and it may fail or produce unexpected results. If it fails, post an issue with as many details as possible. Only provide a FASTA file as input or you may experience unknown issues.
+I added some additional error checking, but be aware the program may fail or produce unexpected results. If this occurs, post an issue with as many details as possible. Only provide a FASTA file as input or you may experience unknown issues.
 
 When calculating GC% and quantifying the number of Ns, any character not contained in the characters ACGT (or acgt) is considered an N. GC% is calculated as (num GC * 100) / num AT.
 
 # Citing
 If you use this tool for published work, please kindly cite this repo in-text. There is no version number but you can include the date of the most current commit if you want. You can cite this repo in-text with wording such as:
 
-> Assembly quality was assessed with qqual v2024-01-25 (available at: https://github.com/stephen-cohen/qqual).
+> Assembly quality was assessed with qqual v2024-01-30 (available at: https://github.com/stephen-cohen/qqual).
 
 # License
 MIT License
