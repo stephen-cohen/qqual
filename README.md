@@ -14,7 +14,7 @@ The program analyzes a DNA FASTA file and generates the following output:
 8. GC (%)
 9. Number of Ns
 
-The program finishes quickly - it takes about 1 second to run for a 100 Mbase assembly.
+The program finishes quickly - in testing, it takes about 1.5 seconds to run for a 100 Mbase assembly.
 
 # Installation
 There is a generic Makefile, so it can be compiled with the following commands:
