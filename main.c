@@ -126,8 +126,8 @@ output_results(struct output_info *output)
 	printf("File name\t%s\n", output->f_name);
 	printf("Seq length\t%ld\n", output->s_len);
 	printf("Seq length >10k\t%ld\n", output->s_len_10k);
-	printf("Contig num\t%ud\n", output->c_num);
-	printf("Contig num >10k\t%ud\n", output->c_num_10k);
+	printf("Contig num\t%u\n", output->c_num);
+	printf("Contig num >10k\t%u\n", output->c_num_10k);
 	printf("Largest contig\t%ld\n", output->largest_c);
 	printf("N50      \t%ld\n", output->N50);
 	printf("L50      \t%ld\n", output->L50);
