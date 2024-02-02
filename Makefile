@@ -1,2 +1,2 @@
 default:
-	gcc -o qqual *.c -O3
+	cc -o qqual *.c -O3 -Wall -Wextra -Wpedantic
