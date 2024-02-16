@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,8 +8,8 @@ struct output_info {
 	char *f_name;
 	uint64_t s_len;
 	uint64_t s_len_10k;
-	uint32_t c_num;
-	uint32_t c_num_10k;
+	uint64_t c_num;
+	uint64_t c_num_10k;
 	uint64_t *c_len;
 	uint64_t largest_c;
 	uint64_t AT_count;
@@ -124,15 +125,15 @@ void
 output_results(struct output_info *output)
 {
 	printf("File name\t%s\n", output->f_name);
-	printf("Seq length\t%ld\n", output->s_len);
-	printf("Seq length >10k\t%ld\n", output->s_len_10k);
-	printf("Contig num\t%u\n", output->c_num);
-	printf("Contig num >10k\t%u\n", output->c_num_10k);
-	printf("Largest contig\t%ld\n", output->largest_c);
-	printf("N50      \t%ld\n", output->N50);
-	printf("L50      \t%ld\n", output->L50);
+	printf("Seq length\t%" PRIu64 "\n", output->s_len);
+	printf("Seq length >10k\t%" PRIu64 "\n", output->s_len_10k);
+	printf("Contig num\t%" PRIu64 "\n", output->c_num);
+	printf("Contig num >10k\t%" PRIu64 "\n", output->c_num_10k);
+	printf("Largest contig\t%" PRIu64 "\n", output->largest_c);
+	printf("N50      \t%" PRIu64 "\n", output->N50);
+	printf("L50      \t%" PRIu64 "\n", output->L50);
 	printf("GC percentage\t%.2lf\n", output->GC_p);
-	printf("Number of Ns\t%ld\n", output->N_count);
+	printf("Number of Ns\t%" PRIu64 "\n", output->N_count);
 }
 
 struct output_info *
@@ -165,7 +166,7 @@ fasta_count(struct output_info *info)
 {
 	char c;
 	int break_loop;
-	uint32_t max_num_records;
+	uint64_t max_num_records;
 	uint64_t cur_seq_len;
 	FILE *f;
 
