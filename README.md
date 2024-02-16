@@ -41,10 +41,12 @@ I added some additional error checking, but be aware the program may fail or pro
 
 When calculating GC% and quantifying the number of Ns, any character not contained in the characters ACGT (or acgt) is considered an N. GC% is calculated as (num GC * 100) / num AT.
 
+I would like to add auN calculation in the future.
+
 # Citing
 If you use this tool for published work, please kindly cite this repo in-text. There is no version number but you can include the date of the most current commit if you want. You can cite this repo in-text with wording such as:
 
-> Assembly quality was assessed with qqual v2024-01-30 (available at: https://github.com/stephen-cohen/qqual).
+> Assembly quality was assessed with qqual v2024-02-16 (available at: https://github.com/stephen-cohen/qqual).
 
 # License
 MIT License
