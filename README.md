@@ -11,10 +11,11 @@ The program analyzes a DNA FASTA file and generates the following output:
 5. largest contig
 6. N50
 7. L50
-8. GC (%)
-9. Number of Ns
+8. auN
+9. GC (%)
+10. Number of Ns
 
-The program finishes quickly - in testing, it takes about 1.5 seconds to run for a 100 Mbase assembly.
+The program finishes quickly - in testing, it takes about 1 second to run for a 100 Mbase assembly.
 
 # Installation
 There is a generic Makefile, so it can be compiled with the following commands:
@@ -23,9 +24,9 @@ There is a generic Makefile, so it can be compiled with the following commands:
     cd qqual
     make
 
-The resulting binary will be `qqual` which may be placed into an executable path (e.g. `~/bin` if it exists)
+The resulting binary will be `qqual` which may be placed into an executable path (e.g. `$HOME/bin` if it exists)
 
-    mv qqual ~/bin
+    mv qqual $HOME/bin
 
 # Running
 The program takes a single argument - a FASTA file.
@@ -37,16 +38,14 @@ The output format is tab separated values and can be redirected to a file via ei
     qqual file.fasta > output.tsv
     qqual file.fasta | tee output.tsv
 
-I added some additional error checking, but be aware the program may fail or produce unexpected results. If this occurs, post an issue with as many details as possible. Only provide a FASTA file as input or you may experience unknown issues.
+I added some additional error checking, but be aware the program may fail or produce unexpected results. If this occurs, post an issue with as many details as possible. Only provide a FASTA file as input or you may experience unknown issues. I have spot-checked the results of several assemblies with other tools, but there may be cases where unpredictable results occur.
 
-When calculating GC% and quantifying the number of Ns, any character not contained in the characters ACGT (or acgt) is considered an N. GC% is calculated as (num GC * 100) / num AT.
-
-I would like to add auN calculation in the future.
+When calculating GC% and quantifying the number of Ns, any character not contained in the characters ACGT (or acgt) is considered an N. GC% is calculated as (num GC * 100) / num AT (Ns are not counted). Degenerate bases (besides N) will cause an error - convert these to Ns before running.
 
 # Citing
-If you use this tool for published work, please kindly cite this repo in-text. There is no version number but you can include the date of the most current commit if you want. You can cite this repo in-text with wording such as:
+If you use this tool for published work, please kindly cite this repo in-text. The version number is the date of the most current commit. You can cite this repo in-text with wording such as:
 
-> Assembly quality was assessed with qqual v2024-02-16 (available at: https://github.com/stephen-cohen/qqual).
+> Assembly quality was assessed with qqual v2024-02-29 (available at: https://github.com/stephen-cohen/qqual).
 
 # License
 MIT License
