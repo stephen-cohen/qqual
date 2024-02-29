@@ -18,6 +18,7 @@ struct output_info {
 	double GC_p;
 	uint64_t N50;
 	uint64_t L50;
+	double auN;
 };
 
 void			usage(char *argv);
@@ -100,6 +101,11 @@ calc_N50_L50(struct output_info *output)
 	}
 	/* What was the smallest contig we added to get there? */
 	output->N50 = *(output->c_len + i + 1);
+	/* Now calculate auN */
+	for (i = 0; i < output->c_num; i += 1) {
+		output->auN += ((float) *(output->c_len + i) * (float) *(output->c_len + i));
+	}
+	output->auN /= output->s_len;
 }
 
 int
@@ -132,6 +138,7 @@ output_results(struct output_info *output)
 	printf("Largest contig\t%" PRIu64 "\n", output->largest_c);
 	printf("N50      \t%" PRIu64 "\n", output->N50);
 	printf("L50      \t%" PRIu64 "\n", output->L50);
+	printf("auN      \t%.2lf\n", output->auN);
 	printf("GC percentage\t%.2lf\n", output->GC_p);
 	printf("Number of Ns\t%" PRIu64 "\n", output->N_count);
 }
@@ -151,6 +158,7 @@ init_info(char *f_name)
 	info->AT_count = 0;
 	info->GC_count = 0;
 	info->N_count = 0;
+	info->auN = 0.0;
 	return info;
 }
 
