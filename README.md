@@ -40,12 +40,12 @@ The output format is tab separated values and can be redirected to a file via ei
 
 I added some additional error checking, but be aware the program may fail or produce unexpected results. If this occurs, post an issue with as many details as possible. Only provide a FASTA file as input or you may experience unknown issues. I have spot-checked the results of several assemblies with other tools, but there may be cases where unpredictable results occur.
 
-When calculating GC% and quantifying the number of Ns, any character not contained in the characters ACGT (or acgt) is considered an N. GC% is calculated as (num GC * 100) / num AT (Ns are not counted). Degenerate bases (besides N) will cause an error - convert these to Ns before running.
+When calculating GC% and quantifying the number of Ns, any character not contained in the characters ACGT (or acgt) is considered an N. GC% is calculated as (num GC * 100) / num AT (Ns are not counted). Degenerate bases are counted as Ns.
 
 # Citing
 If you use this tool for published work, please kindly cite this repo in-text. The version number is the date of the most current commit. You can cite this repo in-text with wording such as:
 
-> Assembly quality was assessed with qqual v2024-02-29 (available at: https://github.com/stephen-cohen/qqual).
+> Assembly quality was assessed with qqual v2024-07-08 (available at: https://github.com/stephen-cohen/qqual).
 
 # License
 MIT License
