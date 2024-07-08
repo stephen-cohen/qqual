@@ -210,7 +210,10 @@ fasta_count(struct output_info *info)
 			} else if (c == 'C' || c == 'c' || c == 'G' || c == 'g') {
 				info->GC_count +=1;
 				cur_seq_len += 1;
-			} else if (c == 'N' || c == 'n') {
+			} else if (c == 'N' || c == 'n' || c == 'R' || c == 'r' || c == 'Y' || c == 'y' ||
+				   c == 'S' || c == 's' || c == 'W' || c == 'w' || c == 'K' || c == 'k' ||
+				   c == 'M' || c == 'm' || c == 'B' || c == 'b' || c == 'D' || c == 'd' ||
+				   c == 'H' || c == 'h' || c == 'V' || c == 'v') {
 				info->N_count += 1;
 				cur_seq_len += 1;
 			/* See if you need to break out of this loop */
