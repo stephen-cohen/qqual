@@ -1,5 +1,6 @@
 # qqual
 Generate quick DNA sequence quality statistics with a given FASTA file
+[![DOI](https://zenodo.org/badge/748256043.svg)](https://doi.org/10.5281/zenodo.14976927)
 
 # Output
 The program analyzes a DNA FASTA file and generates the following output:
