@@ -47,12 +47,16 @@ When calculating GC% and quantifying the number of Ns, any character not contain
 # Citing
 If you use this tool for published work, please kindly cite this repo in-text. The version number is the date of the most current commit. You can cite this repo in-text with wording such as:
 
-> Assembly quality was assessed with qqual v2024-07-08 (available at: https://github.com/stephen-cohen/qqual).
+> Assembly quality was assessed with qqual v2025-03-05 (available at: https://github.com/stephen-cohen/qqual).
+
+Or if citing in a literature cited or references section, the DOI of the linked Zenodo repository can be used:
+
+> Cohen, S. P. (2025). *qqual (v2025-03-05)* \[Computer software\]. Zenodo. https://doi.org/10.5281/zenodo.14976927
 
 # License
 MIT License
 
-Copyright (c) 2024 Stephen P. Cohen
+Copyright (c) 2024–2025 Stephen P. Cohen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
